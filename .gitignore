@@ -1,14 +1,14 @@
 .idea
 venv
 __pycache__
-camera_service/cameras.txt
+src/cameras.txt
 
 # Python
 *.pyc
 *~
 
 # cameras.txt
-src/cameras.txt
+./src/cameras.txt
 
 # Env
 backend/.env
