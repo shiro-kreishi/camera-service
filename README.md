@@ -12,6 +12,12 @@ pip install -r requirements.txt
 ## Overview
 This API provides functionality to manage connected cameras and retrieve frames in real-time. It allows users to get the list of connected cameras, fetch frames in JPEG format or as raw data, and refresh the camera list.
 
+## Docs
+Use FastAPI Swagger:
+```
+http://127.0.0.1:8001/docs
+```
+
 ## API Endpoints
 
 ### 1. Get List of Connected Cameras
@@ -102,6 +108,8 @@ The following settings are defined in `Camera_Service_Settings`:
 #### Start the Server
 ```bash
 uvicorn main:app --host 127.0.0.1 --port 8000
+# or
+python src/main.py
 ```
 #### Get the List of Cameras
 ```bash
