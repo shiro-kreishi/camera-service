@@ -6,6 +6,17 @@ python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
+### Cameras config
+example of camera configuration: `src/cameras.txt`
+```
+rtsp://admin:pgZqfq86@192.168.88.91:554/live/av0
+rtsp://admin:pgZqfq86@192.168.88.93:554/live/av0
+```
+or
+```
+0
+1
+```
 
 # Camera Service API Documentation
 
