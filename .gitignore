@@ -7,6 +7,9 @@ camera_service/cameras.txt
 *.pyc
 *~
 
+# cameras.txt
+src/cameras.txt
+
 # Env
 backend/.env
 .env.docker
