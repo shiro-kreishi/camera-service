@@ -1,0 +1,13 @@
+services:
+  camera_service:
+    build: .
+    command: python /usr/src/app/main.py
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    networks:
+      - main
+
+networks:
+  main:
+    driver: bridge
