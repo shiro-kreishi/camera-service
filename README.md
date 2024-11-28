@@ -118,9 +118,10 @@ The following settings are defined in `Camera_Service_Settings`:
 ### Example Usage
 #### Start the Server
 ```bash
+cd src/
 uvicorn main:app --host 127.0.0.1 --port 8000
 # or
-python src/main.py
+python main.py
 ```
 #### Get the List of Cameras
 ```bash
