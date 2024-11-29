@@ -7,9 +7,7 @@ class Camera_Service_Settings:
     root_full_path = 'http://' + root_url + ':' + str(root_port_int)
     list_cameras = '/cameras'
     image = '/image/'
-    image_none_buffer = '/image-non-buffer/'
     image_raw = '/image-raw/'
-    image_raw_non_buffer = '/image-raw-non-buffer/'
     refresh = '/refresh'
 
 

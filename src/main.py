@@ -37,7 +37,7 @@ async def get_camera_list():
     return JSONResponse(content=camera_list)
 
 
-@app.get(f"{Camera_Service_Settings.image_none_buffer}"+"{cam_index}")
+@app.get(f"{Camera_Service_Settings.image}"+"{cam_index}")
 async def get_camera_frame_non_buffer(cam_index: int):
     """
         Эндпоинт для получения кадра камеры.
@@ -50,7 +50,7 @@ async def get_camera_frame_non_buffer(cam_index: int):
         return {"error": "Камера не найдена или кадр отсутствует"}
 
 
-@app.get(f"{Camera_Service_Settings.image_raw_non_buffer}"+"{cam_index}")
+@app.get(f"{Camera_Service_Settings.image_raw}"+"{cam_index}")
 async def get_camera_frame_raw_non_buffer(cam_index: int):
     frame = server.connected_cameras[cam_index].get_frame()
     if frame is not None:
