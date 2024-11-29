@@ -14,29 +14,6 @@ from CamServer import CamServer
 from config import Camera_Service_Settings
 server = CamServer()
 
-# Инициализация буфера и блокировки для доступа к буферу
-frame_buffer = {}
-buffer_lock = Lock()
-
-
-def update_frame_buffer():
-    """
-    Функция для периодического обновления буфера кадров.
-    Запускается в отдельном потоке и обновляет кадры всех подключенных камер.
-    """
-    while True:
-        with buffer_lock:
-            for index, cam in enumerate(server.connected_cameras):
-                frame = cam.get_frame()
-                if frame is not None:
-                    frame_buffer[index] = frame  # Обновляем кадр в буфере
-        time.sleep(0.1)  # Обновление буфера каждую секунду (можно настроить)
-
-
-# Запуск обновления буфера в отдельном потоке
-buffer_thread = Thread(target=update_frame_buffer, daemon=True)
-buffer_thread.start()
-
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -61,12 +38,11 @@ async def get_camera_list():
 
 
 @app.get(f"{Camera_Service_Settings.image}"+"{cam_index}")
-async def get_camera_frame(cam_index: int):
+async def get_camera_frame_non_buffer(cam_index: int):
     """
-    Эндпоинт для получения последнего кадра от указанной камеры из буфера.
+        Эндпоинт для получения кадра камеры.
     """
-    with buffer_lock:
-        frame = frame_buffer.get(cam_index)  # Берем кадр из буфера
+    frame = server.connected_cameras[cam_index].get_frame()
     if frame is not None:
         _, img_encoded = cv2.imencode('.jpg', frame)
         return StreamingResponse(io.BytesIO(img_encoded.tobytes()), media_type="image/jpeg")
@@ -75,14 +51,10 @@ async def get_camera_frame(cam_index: int):
 
 
 @app.get(f"{Camera_Service_Settings.image_raw}"+"{cam_index}")
-async def get_camera_frame_raw(cam_index: int):
-    """
-    Эндпоинт для получения последнего кадра от указанной камеры в виде массива numpy из буфера.
-    """
-    with buffer_lock:
-        frame = frame_buffer.get(cam_index)
+async def get_camera_frame_raw_non_buffer(cam_index: int):
+    frame = server.connected_cameras[cam_index].get_frame()
     if frame is not None:
-        frame_data = frame.tolist()  # Преобразование numpy массива в список
+        frame_data = frame.tolist()
         return JSONResponse(content={"frame": frame_data})
     else:
         return JSONResponse(content={"error": "Камера не найдена или кадр отсутствует"})
